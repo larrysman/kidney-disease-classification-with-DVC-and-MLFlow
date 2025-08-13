@@ -1,0 +1,25 @@
+# THE PARAMETERS USED IN TRAINING THE MODELS AND THE ENTIRE WORKFLOW
+
+# VGG16 PRETRAINED MODEL (BASE) PARAMETERS
+
+prepare_base_model:
+  AUGMENTATION: True
+  IMAGE_SIZE: [224, 224, 3]   # As per VGG16 model
+  BATCH_SIZE: 16
+  INCLUDE_TOP: False   # This will remove the FC Layer
+  EPOCHS: 1
+  CLASSES: 2    # Depending on the outputs expected - In this case, normal or tumor
+  WEIGHTS: imagenet  # As per VGG16 model
+  LEARNING_RATE: 0.01
+
+
+
+# TRAINING MODEL PARAMETERS
+
+# training_model:
+#   AUGMENTATION: True
+#   EPOCHS: 1
+#   BATCH_SIZE: 16
+#   IMAGE_SIZE: [224, 224, 3]
+
+  

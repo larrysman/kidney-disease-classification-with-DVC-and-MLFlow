@@ -1,0 +1,27 @@
+# GITIGNORE
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# FILES AND FOLDERS TO BE IGNORED
+artifacts/*
+
+private_pass.py
+
+logs/*
+
+mlruns/*
+
+research/trial.ipynb
+
+__pycache__/
+
+templates/*
+
+setup.py
+
+KIDNEY_CLASS_VENV/*
+

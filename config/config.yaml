@@ -1,0 +1,49 @@
+# CREATE THE YAML FOR DOWNLOADING DATASET AND FOLDERS TO SAVE THE DOWNLOADED DATASET
+
+artifacts_root: artifacts
+
+# DATA INGESTION YAML
+data_ingestion:
+  root_dir: artifacts/data_ingestion
+  source_url: https://drive.google.com/file/d/10qNYUcIT9QIQ9m1yndnLk8NSNu83BrCk/view?usp=sharing
+  # local_data_file: artifacts/data_ingestion/data.zip
+  # unzip_dir: artifacts/data_ingestion
+  local_data_file: artifacts/data_ingestion/data.zip
+  unzip_dir: artifacts/data_ingestion/kidney_disease_scan_image
+
+
+# BASE MODEL PREPARATION YAML AND ALSO UPDATE THE PARAMS FOR THE MODEL PARAMETERS  keras.io
+prepare_base_model:
+  root_dir: artifacts/prepare_base_model
+  base_model_path: artifacts/prepare_base_model/base_model.h5   # Original VGG16 model
+  updated_base_model_path: artifacts/prepare_base_model/base_model_updated.h5   # CNN layers from VGG16 added to the customized Fully Connected (FC) layer
+
+
+# MODEL TRAINING YAML FILE
+training_model:
+  root_dir: artifacts/training
+  trained_model_path: artifacts/training/trained_model.h5
+
+
+# MODEL EVALUATION YAML FILE
+model_evaluation:
+  trained_model_path: artifacts/training/trained_model.h5
+  training_data: artifacts/data_ingestion/kidney_disease_scan_image
+  scores_file_path: artifacts/evaluation_score/scores.json
+
+
+# MODEL EXPERIMENTATION AND LOGGING WITH MLFLOW YAML
+model_logging_with_mlflow:
+  trained_model_path: artifacts/training/trained_model.h5
+  mlflow_url: https://dagshub.com/olalytics/machine_learning_pipeline_with_dvc.mlflow  #  change this to the actual repo name
+  scores_file_path: artifacts/evaluation_score/scores.json
+
+
+
+
+
+
+
+
+
+

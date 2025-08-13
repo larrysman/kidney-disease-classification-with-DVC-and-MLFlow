@@ -1,0 +1,88 @@
+# COMPLETE DVC YAML FILE FOR END-TO-END PIPELINE FOR THE PROJECT
+
+stages:
+  data_ingestion:
+    cmd: 
+      - python src/Kidney_classifier/pipeline/stage_01_data_ingestion.py
+    deps:
+      - src/Kidney_classifier/pipeline/stage_01_data_ingestion.py
+      - config/config.yaml
+    outs:
+      - artifacts/data_ingestion/kidney_disease_scan_image
+
+
+  prepare_base_model:
+    cmd: 
+      - python src/Kidney_classifier/pipeline/stage_02_prepare_base_model.py
+    deps:
+      - src/Kidney_classifier/pipeline/stage_02_prepare_base_model.py
+      - config/config.yaml
+    params:
+      - AUGMENTATION
+      - IMAGE_SIZE
+      - BATCH_SIZE
+      - INCLUDE_TOP
+      - EPOCHS
+      - CLASSES
+      - WEIGHTS
+      - LEARNING_RATE
+    outs:
+      - artifacts/prepare_base_model
+
+    
+  model_training:
+    cmd: 
+      - python src/Kidney_classifier/pipeline/stage_03_model_training.py
+    deps:
+      - src/Kidney_classifier/pipeline/stage_03_model_training.py
+      - config/config.yaml
+      - artifacts/data_ingestion/kidney_disease_scan_image
+      - artifacts/prepare_base_model
+    params:
+      - AUGMENTATION
+      - IMAGE_SIZE
+      - BATCH_SIZE
+      - EPOCHS
+    outs:
+      - artifacts/training/trained_model.h5
+
+
+  model_evaluation:
+    cmd:
+      - python src/Kidney_classifier/pipeline/stage_04_model_evaluation.py
+    deps:
+      - src/Kidney_classifier/pipeline/stage_04_model_evaluation.py
+      - config/config.yaml
+      - artifacts/data_ingestion/kidney_disease_scan_image
+      - artifacts/training/trained_model.h5
+    params:
+      - AUGMENTATION
+      - IMAGE_SIZE
+      - BATCH_SIZE
+      - EPOCHS
+    metrics:
+      - artifacts/evaluation_score/scores.json
+      #- cache: false
+
+
+  mlflow_experimentation:
+    cmd:
+      - python src/Kidney_classifier/pipeline/stage_05_mlflow_experimentation.py
+    deps:
+      - src/Kidney_classifier/pipeline/stage_05_mlflow_experimentation.py
+      - config/config.yaml
+      - artifacts/evaluation_score/scores.json
+      - artifacts/training/trained_model.h5
+    params:
+      - AUGMENTATION
+      - IMAGE_SIZE
+      - BATCH_SIZE
+      - INCLUDE_TOP
+      - EPOCHS
+      - CLASSES
+      - WEIGHTS
+      - LEARNING_RATE
+    outs:
+      - Kidney_Disease_Classification/mlruns
+    cache: false
+
