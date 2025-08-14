@@ -35,12 +35,8 @@ model_evaluation:
 # MODEL EXPERIMENTATION AND LOGGING WITH MLFLOW YAML
 model_logging_with_mlflow:
   trained_model_path: artifacts/training/trained_model.h5
-  mlflow_url: https://dagshub.com/olalytics/machine_learning_pipeline_with_dvc.mlflow  #  change this to the actual repo name
+  mlflow_url: https://dagshub.com/olalytics/kidney-disease-classification-with-DVC-and-MLFlow.mlflow  #  change this to the actual repo name
   scores_file_path: artifacts/evaluation_score/scores.json
-
-
-
-
 
 
 
