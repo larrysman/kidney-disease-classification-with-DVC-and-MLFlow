@@ -91,6 +91,15 @@ Running and Reproducing the Pipeline: dvc repro
 ```
 
 
+##### ` Connect to remote repo`
+
+```bash
+git remote add origin https://github.com/larrysman/kidney-disease-classification-with-DVC-and-MLFlow.git
+
+git push origin main
+```
+
+
 ##### `Create dagshub account` 
 
 [DAGSHUB_ACCOUNT_CREATION](https://dagshub.com/)
@@ -162,7 +171,7 @@ For any contributions or collaboartion, ensure you follow the procedures below:
 
         git add .
 
-        git commit -m "Describe your changes explicitly"
+        git commit -m "describe your changes explicitly"
 
         git push
 
