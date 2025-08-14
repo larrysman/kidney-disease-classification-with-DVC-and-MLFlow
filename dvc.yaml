@@ -18,14 +18,15 @@ stages:
       - src/Kidney_classifier/pipeline/stage_02_prepare_base_model.py
       - config/config.yaml
     params:
-      - AUGMENTATION
-      - IMAGE_SIZE
-      - BATCH_SIZE
-      - INCLUDE_TOP
-      - EPOCHS
-      - CLASSES
-      - WEIGHTS
-      - LEARNING_RATE
+      - prepare_base_model
+      # - AUGMENTATION
+      # - IMAGE_SIZE
+      # - BATCH_SIZE
+      # - INCLUDE_TOP
+      # - EPOCHS
+      # - CLASSES
+      # - WEIGHTS
+      # - LEARNING_RATE
     outs:
       - artifacts/prepare_base_model
 
@@ -39,10 +40,10 @@ stages:
       - artifacts/data_ingestion/kidney_disease_scan_image
       - artifacts/prepare_base_model
     params:
-      - AUGMENTATION
-      - IMAGE_SIZE
-      - BATCH_SIZE
-      - EPOCHS
+      - prepare_base_model.AUGMENTATION
+      - prepare_base_model.IMAGE_SIZE
+      - prepare_base_model.BATCH_SIZE
+      - prepare_base_model.EPOCHS
     outs:
       - artifacts/training/trained_model.h5
 
@@ -56,10 +57,10 @@ stages:
       - artifacts/data_ingestion/kidney_disease_scan_image
       - artifacts/training/trained_model.h5
     params:
-      - AUGMENTATION
-      - IMAGE_SIZE
-      - BATCH_SIZE
-      - EPOCHS
+      - prepare_base_model.AUGMENTATION
+      - prepare_base_model.IMAGE_SIZE
+      - prepare_base_model.BATCH_SIZE
+      - prepare_base_model.EPOCHS
     metrics:
       - artifacts/evaluation_score/scores.json
       #- cache: false
@@ -74,15 +75,15 @@ stages:
       - artifacts/evaluation_score/scores.json
       - artifacts/training/trained_model.h5
     params:
-      - AUGMENTATION
-      - IMAGE_SIZE
-      - BATCH_SIZE
-      - INCLUDE_TOP
-      - EPOCHS
-      - CLASSES
-      - WEIGHTS
-      - LEARNING_RATE
-    outs:
-      - Kidney_Disease_Classification/mlruns
-    cache: false
+      - prepare_base_model.AUGMENTATION
+      - prepare_base_model.IMAGE_SIZE
+      - prepare_base_model.BATCH_SIZE
+      - prepare_base_model.INCLUDE_TOP
+      - prepare_base_model.EPOCHS
+      - prepare_base_model.CLASSES
+      - prepare_base_model.WEIGHTS
+      - prepare_base_model.LEARNING_RATE
+    # outs:
+    #   - Kidney_Disease_Classification/mlruns
+
 

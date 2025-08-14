@@ -1,0 +1,156 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd:
+    - python src/Kidney_classifier/pipeline/stage_01_data_ingestion.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: 28c408d41957514e4e953e0127dbcb9b
+      size: 1646
+    - path: src/Kidney_classifier/pipeline/stage_01_data_ingestion.py
+      hash: md5
+      md5: 26651f8852aa297bafc4d424e549466e
+      size: 1053
+    outs:
+    - path: artifacts/data_ingestion/kidney_disease_scan_image
+      hash: md5
+      md5: e7f6063300f5fe87e14e4b8db81cadfb.dir
+      size: 42912337
+      nfiles: 400
+  prepare_base_model:
+    cmd:
+    - python src/Kidney_classifier/pipeline/stage_02_prepare_base_model.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: 28c408d41957514e4e953e0127dbcb9b
+      size: 1646
+    - path: src/Kidney_classifier/pipeline/stage_02_prepare_base_model.py
+      hash: md5
+      md5: 86ab4d84ffa68ef6c6589a14fe8da2a0
+      size: 1106
+    params:
+      params.yaml:
+        prepare_base_model:
+          AUGMENTATION: true
+          IMAGE_SIZE:
+          - 224
+          - 224
+          - 3
+          BATCH_SIZE: 16
+          INCLUDE_TOP: false
+          EPOCHS: 1
+          CLASSES: 2
+          WEIGHTS: imagenet
+          LEARNING_RATE: 0.01
+    outs:
+    - path: artifacts/prepare_base_model
+      hash: md5
+      md5: 1b864dba9bc45ce79b6c7b60fe1f9698.dir
+      size: 118073512
+      nfiles: 2
+  model_training:
+    cmd:
+    - python src/Kidney_classifier/pipeline/stage_03_model_training.py
+    deps:
+    - path: artifacts/data_ingestion/kidney_disease_scan_image
+      hash: md5
+      md5: e7f6063300f5fe87e14e4b8db81cadfb.dir
+      size: 42912337
+      nfiles: 400
+    - path: artifacts/prepare_base_model
+      hash: md5
+      md5: 1b864dba9bc45ce79b6c7b60fe1f9698.dir
+      size: 118073512
+      nfiles: 2
+    - path: config/config.yaml
+      hash: md5
+      md5: 28c408d41957514e4e953e0127dbcb9b
+      size: 1646
+    - path: src/Kidney_classifier/pipeline/stage_03_model_training.py
+      hash: md5
+      md5: d55c084411ba63a3ab2f1983af3c6b48
+      size: 1095
+    params:
+      params.yaml:
+        prepare_base_model.AUGMENTATION: true
+        prepare_base_model.BATCH_SIZE: 16
+        prepare_base_model.EPOCHS: 1
+        prepare_base_model.IMAGE_SIZE:
+        - 224
+        - 224
+        - 3
+    outs:
+    - path: artifacts/training/trained_model.h5
+      hash: md5
+      md5: 7d725e2583cf6a028e45c04ac02d60f9
+      size: 59551240
+  model_evaluation:
+    cmd:
+    - python src/Kidney_classifier/pipeline/stage_04_model_evaluation.py
+    deps:
+    - path: artifacts/data_ingestion/kidney_disease_scan_image
+      hash: md5
+      md5: e7f6063300f5fe87e14e4b8db81cadfb.dir
+      size: 42912337
+      nfiles: 400
+    - path: artifacts/training/trained_model.h5
+      hash: md5
+      md5: 7d725e2583cf6a028e45c04ac02d60f9
+      size: 59551240
+    - path: config/config.yaml
+      hash: md5
+      md5: 28c408d41957514e4e953e0127dbcb9b
+      size: 1646
+    - path: src/Kidney_classifier/pipeline/stage_04_model_evaluation.py
+      hash: md5
+      md5: 4a62f292bc872d8a3e6e1ce95400ed7b
+      size: 1020
+    params:
+      params.yaml:
+        prepare_base_model.AUGMENTATION: true
+        prepare_base_model.BATCH_SIZE: 16
+        prepare_base_model.EPOCHS: 1
+        prepare_base_model.IMAGE_SIZE:
+        - 224
+        - 224
+        - 3
+    outs:
+    - path: artifacts/evaluation_score/scores.json
+      hash: md5
+      md5: 863b8caa04fadd575ac9166e90c4b138
+      size: 60
+  mlflow_experimentation:
+    cmd:
+    - python src/Kidney_classifier/pipeline/stage_05_mlflow_experimentation.py
+    deps:
+    - path: artifacts/evaluation_score/scores.json
+      hash: md5
+      md5: 863b8caa04fadd575ac9166e90c4b138
+      size: 60
+    - path: artifacts/training/trained_model.h5
+      hash: md5
+      md5: 7d725e2583cf6a028e45c04ac02d60f9
+      size: 59551240
+    - path: config/config.yaml
+      hash: md5
+      md5: 28c408d41957514e4e953e0127dbcb9b
+      size: 1646
+    - path: src/Kidney_classifier/pipeline/stage_05_mlflow_experimentation.py
+      hash: md5
+      md5: df006dbddbe1488c58b53f4df010bd2f
+      size: 1074
+    params:
+      params.yaml:
+        prepare_base_model.AUGMENTATION: true
+        prepare_base_model.BATCH_SIZE: 16
+        prepare_base_model.CLASSES: 2
+        prepare_base_model.EPOCHS: 1
+        prepare_base_model.IMAGE_SIZE:
+        - 224
+        - 224
+        - 3
+        prepare_base_model.INCLUDE_TOP: false
+        prepare_base_model.LEARNING_RATE: 0.01
+        prepare_base_model.WEIGHTS: imagenet
