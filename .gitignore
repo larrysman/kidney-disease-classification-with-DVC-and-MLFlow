@@ -25,3 +25,5 @@ setup.py
 
 KIDNEY_CLASS_VENV/*
 
+*.png
+

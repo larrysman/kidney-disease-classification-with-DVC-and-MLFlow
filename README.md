@@ -1,21 +1,22 @@
-# KIDNEY DISEASE CLASSIFICATION WITH MLFOW AND DVC
+
+### KIDNEY DISEASE CLASSIFICATION WITH MLFOW AND DVC
+
+##### `Project Overview`
+
+The purpose of this project is to develop a complete end-to-end deep learning model for kidney disease classification and track the workflow using `MLFLOW` and `DVC` for producing complete deep learning pipeline.
+
+This project demonstrates reproducible, modular, and version-controlled deep learning pipelines leveraging on data version control dvc, available here: [DVC](https://dvc.org/doc) and track with: [MLFLOW](https://mlflow.org/docs/latest/ml/). 
+
+The dagshub provides an open source to connect the github reposition for this project to and track the model performance with mlflow. The documentation for dagshub is available here: [DAGSHUB](https://dagshub.com/docs/index.html)
+
+This pipeline uses DVC to manage data, models, and experiment artifacts, while Git handles code and workflow definitions and the mlflow is used for model experimentation and tracking. This ensures the workflow is collaborative, auditable, and easy to reproduce at any time, allowing for collaboration and improvement.
 
 
-# SETTING UP THE PROJECT
+##### `Data Available`
 
-### WORKFLOWS
-1. Update config.yaml
-2. Update secrets.yaml [Optional]
-3. Update params.yaml
-4. Update the entity
-5. Update the configuration manager in src config
-6. Update the components
-7. Update the pipeline
-8. Update the main.py
-9. Update the dvc.yaml
-10. Update the app.py
+The purpose of this project is just to demonstrates an end-to-end deep learning pipeline with mlflow and dvc and hence, I worked a very simple dataset of the kidney_disease_ct_scan images (Normal and Tumor).
 
-#### DATA LINK
+###### `data download link`
 ```bash
 https://drive.google.com/file/d/10qNYUcIT9QIQ9m1yndnLk8NSNu83BrCk/view?usp=sharing
 ```
@@ -29,83 +30,153 @@ prefix_download_url = "https://drive.google.com/uc?/export=download&id=FILE_ID"
 prefix_download_url = "https://drive.google.com/file/d/FILE_ID/view?usp=sharing&export=download"
 ```
 
-### STEPS:
-Clone the repository
 
+##### `Project Execution Structures`
 ```bash
-https://github.com/larrysman/kidney-disease-classification-mlflow-and-dvc
+On this project, the deep learning `stages` include:
+
+    - Create config.yaml
+    - Create params.yaml
+    - Create the entity
+    - Create the configuration manager in src/config
+    - Create the components
+    - Create the pipeline
+    - Create the main.py
+    - Create the mlflow.py
+    - Create the dvc.yaml
 ```
 
-### STEP 01 - INSTALL PYTHON AND CREATE PYTHON ENVIRONMENT FOR THE PROJECT
+##### `Update Project Execution Structures`
+```bash
+For each step or stages, all the below need to be updated:
+
+    - Update config.yaml
+    - Update params.yaml
+    - Update the entity
+    - Update the configuration manager in src/config
+    - Update the components
+    - Update the pipeline
+    - Update the main.py
+    - Update the mlflow.py
+    - Update the dvc.yaml
+```
+
+
+##### `Project Setup Instructions`
 
 ```bash
+
 download Python 3.11.9 from python.org
+
+Set up the Python Virtual Environment: 
+     - python -m venv name_of_your_virtual_environment
+
+     - py -3.11 -m venv name_of_the_environment
+
+Activate the Python Virtual Environment:
+
+     - source name_of_your_virtual_environment/bin/activate - for MacOS
+
+    -  name_of_your_virtual_environment\Scripts\activate - for Windows
+
+Clone the Repository: git clone https://github.com/larrysman/kidney-disease-classification-with-DVC-and-MLFlow.git
+
+Install Project Dependencies: pip install -r requirements.txt
+
+Configure DVC remote Storage: dvc remote add -d myremote ./dvcstore or dvc remote add -d myremote /path/to/your/dvcstore
+
+Pull data and models tracked by DVC: dvc pull
+
+Running and Reproducing the Pipeline: dvc repro
 ```
 
-```bash
-py -3.11 -m venv 'name_of_the_environment'
-```
+
+##### `Create dagshub account` 
+
+[DAGSHUB_ACCOUNT_CREATION](https://dagshub.com/)
+
+After creating your account, complete the profile and proceed to `create`. You will be able to connect your github repository to the `dagshub` for mlflow tracking and experimentation.
+
+
+##### `Setup credentials on dagshub`
 
 ```bash
-name_of_the_environment/Scripts/activate
-```
-
-
-### STEP 02 - INSTALL THE REQUIREMENTS.TXT
-
-```bash
-pip install -r requirements.txt
-```
-
-#### MLFLOW AND DAGSHUB
-
-###### MLFLOW
-
-[MLFLOW](https://mlflow.org/docs/latest/ml/)
-
-
-##### DAGSHUB
-
-[DAGSHUB](https://dagshub.com/)
-
-
-```bash
-#### DAGSHUB IMPORT
-import dagshub
-dagshub.init(repo_owner='USER_NAME', repo_name='PROVIDE_REPO_NAME', mlflow=True)
-
-
-#### CREDENTIALS
+# CRREDENTIAL
 "MLFLOW_TRACKING_URL"="https://dagshub.com/USER_NAME/PROJECT_NAME_OR_REPO.mlflow"
 "MLFLOW_TRACKING_USERNAME"="USER_NAME"
 "MLFLOW_TRACKING_PASSWORD"="40_HASH_TOKENS"
-python script.py
 
-#### SCRIPTS
-import mlflow
-with mlflow.start_run():
-  mlflow.log_param('parameter name', 'value')
-  mlflow.log_metric('metric name', 1)
-```
 
-```bash
-# RUNNING ON JUPYTER NOTEBOOK
+# ACCESS CREDENTIALS ON JUPYTER
 os.environ["MLFLOW_TRACKING_URL"]="https://dagshub.com/USER_NAME/PROJECT_NAME_OR_REPO.mlflow"
 os.environ["MLFLOW_TRACKING_USERNAME"]="USER_NAME"
 os.environ["MLFLOW_TRACKING_PASSWORD"]="40_HASH_TOKENS"
+```
 
 
-#### EXECUTABLE AT THE TERMINAL BEFORE INITIALIZING THE MLFLOW
+##### `EXECUTE ON THE TERMINAL`
+
+```bash
+# EXECUTABLE AT THE TERMINAL BEFORE INITIALIZING THE MLFLOW
+
 export MLFLOW_TRACKING_URL=https://dagshub.com/USER_NAME/PROJECT_NAME_OR_REPO.mlflow
 
 export MLFLOW_TRACKING_USERNAME=USER_NAME
 
 export MLFLOW_TRACKING_PASSWORD=40_HASH_TOKENS
 
-run each on the terminal before you start the dagshub and mlflow
+Notes:
+    run each on the terminal before you start the dagshub and mlflow.
+
+    replace USER_NAME, PROJECT_NAME_OR_REPO and 40_HASH_TOKENS.
 ```
 
 
+##### `Complete pipeline`
+
+
+`run: dvc dag`
+
+![alt text](image.png)
+
+
+`run: dvc dag --outs`
+
+![alt text](image-1.png)
 
 
 
+##### `MLFLOW TRACKERS AND LOGGERS`
+
+
+
+
+
+##### `Contributions and Collaboration` 👩🏻‍🤝‍👨🏽
+
+For any contributions or collaboartion, ensure you follow the procedures below:
+
+    You can change data or code (for instance, in src/) and to track new or updated data files do: `dvc add data/<new-data-file>`
+    You will need to reproduce the pipeline to re-run all stages as needed and do: `dvc repro`
+    You will need to commit code and DVC meta-files, hence do the following:
+
+        git add .
+
+        git commit -m "Describe your changes explicitly"
+
+        git push
+
+You will need to push data and models to DVC remote do: `dvc push`
+
+Please note: Remember, contributing to open source projects is more than just a code. You can also contribute by reporting bugs, suggesting new features, improving documentation, and more. 
+
+Thank you for considering contributing to this project!!!🙌🙌🙌
+
+🔚
+
+Author
+Email: Larrysman2004@yahoo.com
+
+Name: Olanrewaju Adegoke
+
+©️O L A L Y T I C S
