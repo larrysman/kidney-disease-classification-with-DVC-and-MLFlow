@@ -6,8 +6,8 @@ stages:
     deps:
     - path: config/config.yaml
       hash: md5
-      md5: 28c408d41957514e4e953e0127dbcb9b
-      size: 1646
+      md5: 5b170425aa0f9c7b65f29e0670629cf8
+      size: 1653
     - path: src/Kidney_classifier/pipeline/stage_01_data_ingestion.py
       hash: md5
       md5: 26651f8852aa297bafc4d424e549466e
@@ -24,8 +24,8 @@ stages:
     deps:
     - path: config/config.yaml
       hash: md5
-      md5: 28c408d41957514e4e953e0127dbcb9b
-      size: 1646
+      md5: 5b170425aa0f9c7b65f29e0670629cf8
+      size: 1653
     - path: src/Kidney_classifier/pipeline/stage_02_prepare_base_model.py
       hash: md5
       md5: 86ab4d84ffa68ef6c6589a14fe8da2a0
@@ -47,7 +47,7 @@ stages:
     outs:
     - path: artifacts/prepare_base_model
       hash: md5
-      md5: 1b864dba9bc45ce79b6c7b60fe1f9698.dir
+      md5: bf6f369b162cef7e977f40422f83abb6.dir
       size: 118073512
       nfiles: 2
   model_training:
@@ -61,13 +61,13 @@ stages:
       nfiles: 400
     - path: artifacts/prepare_base_model
       hash: md5
-      md5: 1b864dba9bc45ce79b6c7b60fe1f9698.dir
+      md5: bf6f369b162cef7e977f40422f83abb6.dir
       size: 118073512
       nfiles: 2
     - path: config/config.yaml
       hash: md5
-      md5: 28c408d41957514e4e953e0127dbcb9b
-      size: 1646
+      md5: 5b170425aa0f9c7b65f29e0670629cf8
+      size: 1653
     - path: src/Kidney_classifier/pipeline/stage_03_model_training.py
       hash: md5
       md5: d55c084411ba63a3ab2f1983af3c6b48
@@ -84,7 +84,7 @@ stages:
     outs:
     - path: artifacts/training/trained_model.h5
       hash: md5
-      md5: 7d725e2583cf6a028e45c04ac02d60f9
+      md5: bf806d4a5ad6c1e42fafdde50bfd4472
       size: 59551240
   model_evaluation:
     cmd:
@@ -97,12 +97,12 @@ stages:
       nfiles: 400
     - path: artifacts/training/trained_model.h5
       hash: md5
-      md5: 7d725e2583cf6a028e45c04ac02d60f9
+      md5: bf806d4a5ad6c1e42fafdde50bfd4472
       size: 59551240
     - path: config/config.yaml
       hash: md5
-      md5: 28c408d41957514e4e953e0127dbcb9b
-      size: 1646
+      md5: 5b170425aa0f9c7b65f29e0670629cf8
+      size: 1653
     - path: src/Kidney_classifier/pipeline/stage_04_model_evaluation.py
       hash: md5
       md5: 4a62f292bc872d8a3e6e1ce95400ed7b
@@ -119,24 +119,24 @@ stages:
     outs:
     - path: artifacts/evaluation_score/scores.json
       hash: md5
-      md5: 863b8caa04fadd575ac9166e90c4b138
-      size: 60
+      md5: abaf49a8e7b571eb9d07c5c0cdb757e8
+      size: 74
   mlflow_experimentation:
     cmd:
     - python src/Kidney_classifier/pipeline/stage_05_mlflow_experimentation.py
     deps:
     - path: artifacts/evaluation_score/scores.json
       hash: md5
-      md5: 863b8caa04fadd575ac9166e90c4b138
-      size: 60
+      md5: abaf49a8e7b571eb9d07c5c0cdb757e8
+      size: 74
     - path: artifacts/training/trained_model.h5
       hash: md5
-      md5: 7d725e2583cf6a028e45c04ac02d60f9
+      md5: bf806d4a5ad6c1e42fafdde50bfd4472
       size: 59551240
     - path: config/config.yaml
       hash: md5
-      md5: 28c408d41957514e4e953e0127dbcb9b
-      size: 1646
+      md5: 5b170425aa0f9c7b65f29e0670629cf8
+      size: 1653
     - path: src/Kidney_classifier/pipeline/stage_05_mlflow_experimentation.py
       hash: md5
       md5: df006dbddbe1488c58b53f4df010bd2f
