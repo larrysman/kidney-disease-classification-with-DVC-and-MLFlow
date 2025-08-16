@@ -25,6 +25,7 @@ class MLFLOWLogger:
         scores = self.load_evaluation_scores()
         model = self.load_trained_model()
 
+        mlflow.set_tracking_uri(self.config.mlflow_url)
         mlflow.set_registry_uri(self.config.mlflow_url)
         tracking_url_type_store = urlparse(mlflow.get_tracking_uri()).scheme
 
@@ -34,8 +35,8 @@ class MLFLOWLogger:
 
 
             if tracking_url_type_store != "file":
-                mlflow.keras.load_model(
-                    model, "model", registered_model_name="KIDNEY_DISEASE_CLASSIFIER_FROM_VGG16Model", keras_model_kwargs={"save_format": "h5"}
+                mlflow.keras.log_model(
+                    model, artifact_path="model", registered_model_name="KIDNEY_DISEASE_CLASSIFIER_FROM_VGG16Model", keras_model_kwargs={"save_format": "h5"}
                 )
 
             else:
